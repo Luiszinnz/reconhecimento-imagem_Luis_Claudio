@@ -1,16 +1,20 @@
-# Explicação Linha a Linha - Verificador de Números Primos
+# Explicação Detalhada do Código - Verificador de Números Primos
+
+## Visão Geral
+Este código implementa uma função que verifica se um número é primo. Um número primo é aquele que é divisível apenas por 1 e por ele mesmo.
+
+---
 
 ## Definição da Função
 
+### Linha 1: Definição da Função
 ```python
 def eh_primo(numero):
 ```
-- **`def`**: Palavra-chave Python para definir uma função
-- **`eh_primo`**: Nome da função
-- **`(numero)`**: Parâmetro que a função recebe (o número a ser verificado)
+- Define uma função chamada `eh_primo`
+- Recebe um parâmetro chamado `numero` (o número a ser verificado)
 
-## Docstring (Documentação)
-
+### Linhas 2-8: Docstring (Documentação)
 ```python
     """
     Verifica se um número é primo.
@@ -22,140 +26,131 @@ def eh_primo(numero):
         bool: True se o número é primo, False caso contrário
     """
 ```
-- **Docstring**: Texto entre `"""` que documenta a função
-- **Descreve**: O que a função faz, quais parâmetros recebe e o que retorna
-- **Útil para**: Entender rapidamente como usar a função
+- Texto de documentação que explica o propósito da função
+- **Args**: descreve os parâmetros de entrada
+- **Returns**: descreve o tipo e valor de retorno
 
-## Primeira Verificação: Números Menores que 2
+---
 
+## Lógica Principal
+
+### Linha 10: Primeiro Verificação
 ```python
     if numero < 2:
         return False
 ```
-- **`if numero < 2:`**: Verifica se o número é menor que 2
-- **Por quê?**: Números negativos, zero e 1 NÃO são primos por definição matemática
-- **`return False`**: Retorna falso (não é primo) e encerra a função
+- **Condição**: verifica se o número é menor que 2
+- **Razão**: números menores que 2 (incluindo negativos, 0 e 1) não são primos
+- **Retorno**: imediatamente retorna `False` e encerra a função
 
-## Segunda Verificação: Número 2
-
+### Linha 13-14: Caso Especial do 2
 ```python
     if numero == 2:
         return True
 ```
-- **`if numero == 2:`**: Verifica se o número é exatamente 2
-- **Por quê?**: 2 é o ÚNICO número primo par
-- **`return True`**: Retorna verdadeiro (é primo)
+- **Condição**: verifica se o número é exatamente 2
+- **Razão**: 2 é o único número primo par
+- **Retorno**: imediatamente retorna `True` e encerra a função
 
-## Terceira Verificação: Números Pares
-
+### Linha 17-18: Verificação de Números Pares
 ```python
     if numero % 2 == 0:
         return False
 ```
-- **`numero % 2`**: Operador `%` (módulo) retorna o resto da divisão
-- **`== 0`**: Se o resto é zero, o número é par
-- **Por quê?**: Todo número par (exceto 2, já verificado) é divisível por 2, logo não é primo
-- **`return False`**: Retorna falso (não é primo)
+- **Operador `%`**: calcula o resto da divisão (módulo)
+- **Condição**: verifica se o resto da divisão por 2 é zero (número é par)
+- **Razão**: todos os números pares maiores que 2 não são primos
+- **Retorno**: imediatamente retorna `False` e encerra a função
 
-## Loop Principal - Verificação de Divisibilidade
-
+### Linha 21: Loop de Verificação
 ```python
     for i in range(3, int(numero**0.5) + 1, 2):
 ```
-- **`for i in`**: Começa um loop que passa por cada valor de `i`
-- **`range(3, int(numero**0.5) + 1, 2)`**: Gera números de 3 até a raiz quadrada
-  - **`3`**: Começa em 3 (já verificamos 2)
-  - **`numero**0.5`**: `**` é exponenciação; `0.5` é a mesma coisa que raiz quadrada
-  - **`int(...)`**: Converte para número inteiro
-  - **`+ 1`**: Adiciona 1 para incluir o último número
-  - **`2`**: Incrementa de 2 em 2 (só verifica números ímpares)
+- **`range(3, int(numero**0.5) + 1, 2)`**: cria uma sequência de números
+  - **Início**: começa em 3 (primeiro ímpar após o 2)
+  - **Fim**: vai até a raiz quadrada do número
+  - **Passo**: incrementa de 2 em 2 (verifica apenas números ímpares)
+- **`numero**0.5`**: calcula a raiz quadrada do número
+- **`int(...)`**: converte para número inteiro
+- **`+ 1`**: garante que inclua a raiz quadrada inteira
+- **Razão**: só precisa testar divisores até a raiz quadrada (otimização)
 
-### Exemplo Prático
-Se `numero = 25`:
-- `25**0.5 = 5`
-- `range(3, 6, 2)` gera: `3, 5`
-- Testa divisibilidade por 3 e por 5
-
-### Por quê até a raiz quadrada?
-- Se um número tem um divisor maior que sua raiz quadrada, também terá um divisor menor
-- Isso torna o algoritmo muito mais eficiente! ⚡
-
-## Verificação de Divisibilidade
-
+### Linha 22: Verificação de Divisibilidade
 ```python
         if numero % i == 0:
             return False
 ```
-- **`numero % i == 0`**: Verifica se `i` divide `numero` sem resto
-- **Se verdadeiro**: Encontramos um divisor, então o número NÃO é primo
-- **`return False`**: Encerra a função imediatamente
+- **Condição**: verifica se `numero` é divisível por `i` (resto é zero)
+- **Se verdadeiro**: encontrou um divisor, então o número NÃO é primo
+- **Retorno**: imediatamente retorna `False` e encerra a função
 
-## Resultado Final
-
+### Linha 24: Retorno Final
 ```python
     return True
 ```
 - Se nenhum divisor foi encontrado no loop, o número é primo
-- **`return True`**: O número é primo!
+- Retorna `True`
 
 ---
 
-## Seção de Exemplos
+## Seção de Testes
 
+### Linha 27-28: Comentário e Bloco de Execução
 ```python
+# Exemplos de uso
 if __name__ == "__main__":
 ```
-- **`if __name__ == "__main__":`**: Verificação especial do Python
-- **Significado**: Executa este bloco apenas se o arquivo é executado diretamente
-- **Não executa**: Se o arquivo é importado em outro script
+- **`if __name__ == "__main__":`**: verifica se o script está sendo executado diretamente
+- Garante que este código só rodará quando o arquivo for executado, não quando importado
 
-## Loop de Testes
-
+### Linha 30: Criação de Lista de Testes
 ```python
     numeros_teste = [1, 2, 3, 4, 5, 10, 11, 17, 20, 23, 97]
 ```
-- **`[...]`**: Lista com vários números para testar
-- Inclui: números pequenos, pares, ímpares e primos
+- Define uma lista com números para testar
+- Inclui: números pequenos, pares, ímpares e números primos conhecidos
 
-## Exibição de Resultados
-
+### Linha 32: Cabeçalho da Saída
 ```python
     print("Verificando números primos:\n")
 ```
-- **`print(...)`**: Exibe texto na tela
-- **`\n`**: Caractere de quebra de linha (espaço em branco)
+- Imprime um título no console
+- **`\n`**: quebra de linha para melhor formatação
 
-## Loop de Impressão
-
+### Linha 33: Loop de Iteração
 ```python
     for num in numeros_teste:
+```
+- Itera sobre cada número da lista `numeros_teste`
+- Em cada iteração, `num` recebe o valor do próximo número
+
+### Linha 34: Chamada da Função
+```python
         resultado = eh_primo(num)
+```
+- Chama a função `eh_primo` passando o número atual
+- Armazena o resultado (`True` ou `False`) na variável `resultado`
+
+### Linha 35: Impressão do Resultado
+```python
         print(f"{num:3d} é primo? {resultado}")
 ```
-
-1. **`for num in numeros_teste:`**: Passa por cada número da lista
-2. **`resultado = eh_primo(num)`**: Chama a função e armazena o resultado
-3. **`print(f"...")`**: `f-string` (string formatada) exibe o resultado
-   - **`{num:3d}`**: Exibe o número com 3 espaços de largura
-   - **`{resultado}`**: Exibe True ou False
-
-### Exemplo de Saída
-```
-Verificando números primos:
-
-  1 é primo? False
-  2 é primo? True
-  3 é primo? True
-  4 é primo? False
-  5 é primo? True
-```
+- Usa f-string (string formatada) para exibir o resultado
+- **`{num:3d}`**: imprime o número em um espaço de 3 caracteres, alinhado à direita
+- **`:3d`**: significa "3 dígitos, formato decimal"
+- Imprime cada número testado e sua respectiva resposta
 
 ---
 
-## Resumo da Eficiência 🚀
+## Resumo do Algoritmo
 
-O algoritmo é eficiente porque:
-1. ✅ Descarta números pares rapidamente
-2. ✅ Só verifica até a raiz quadrada
-3. ✅ Só verifica números ímpares no loop
-4. ✅ Retorna False imediatamente ao encontrar um divisor
+1. ✅ Rejeita números < 2 (não primos)
+2. ✅ Aceita 2 (único primo par)
+3. ✅ Rejeita números pares > 2
+4. ✅ Testa divisibilidade por números ímpares até √n
+5. ✅ Se nenhum divisor encontrado, é primo
+
+## Eficiência
+
+- **Complexidade**: O(√n) - muito mais rápido que testar todos os números até n
+- **Por quê?**: se um número n tem divisor maior que √n, tem que ter um divisor menor que √n
